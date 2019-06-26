@@ -9,7 +9,7 @@ import argparse
 from configuration import Credential
 from worcklogdata import WorklogInfo
 
-def get_report(project_key: str, credential: Credential, work_date_start_str, work_date_end_str):
+def get_report(project_key: str, credential: Credential, work_date_start_str, work_date_end_str, work_date_start, work_date_end):
 
     jira_options = {'server': credential.ServerUrl}
     jira = JIRA(options=jira_options, basic_auth=(credential.Login, credential.ApiKey))
@@ -27,12 +27,10 @@ def get_report(project_key: str, credential: Credential, work_date_start_str, wo
 
             log_work_date_str = re.search(r'\d{4}-\d{2}-\d{2}', worklog.started)
             log_work_time = re.search(r'\d{2}:\d{2}:\d{2}', worklog.started)
-            date_start = datetime.strptime(work_date_start_str, '%Y-%m-%d')
-            date_end = datetime.strptime(work_date_end_str, '%Y-%m-%d')
             log_work_date = datetime.strptime(log_work_date_str.group(0), '%Y-%m-%d')
 
 
-            if log_work_date >= date_start and log_work_date <= date_end:
+            if log_work_date >= work_date_start and log_work_date <= work_date_end:
                 worklog_info = WorklogInfo()
                 worklog_info.IssueKey = str('=HYPERLINK("' + credential.ServerUrl + '/browse/' + issue.key + '","' + issue.key + '")')
                 worklog_info.TimeSpent = (str(int(worklog.timeSpentSeconds) / 3600))
@@ -47,3 +45,5 @@ def get_report(project_key: str, credential: Credential, work_date_start_str, wo
                 worklog_info_list.append(worklog_info)
 
     return worklog_info_list
+def convert_date(date: str):
+    return datetime.strptime(date, '%Y-%m-%d')
