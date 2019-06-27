@@ -25,10 +25,11 @@ def read_config(credential: Credential):
     credential.ServerUrl = config['DEFAULT']['Server']
 
 
-def create_config(credential: Credential):
+def _create_config(credential: Credential):
     print('Enter jira login(format - user@domain.com):')
     credential.Login = input()
-    print('Enter Jira API key(instruction here https://confluence.atlassian.com/cloud/api-tokens-938839638.html):')
+    print('Enter Jira API key(instruction here '
+          'https://confluence.atlassian.com/cloud/api-tokens-938839638.html):')
     credential.ApiKey = input()
     print('Enter jira URI:')
     credential.ServerUrl = input()
@@ -39,6 +40,3 @@ def create_config(credential: Credential):
                          'Server': credential.ServerUrl}
     with open('config.ini', 'w') as configfile:
         config.write(configfile)
-
-
-
