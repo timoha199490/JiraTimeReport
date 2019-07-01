@@ -16,7 +16,7 @@ def start():
     project_key = input()
     print('Enter date start (yyyy-mm-dd):')
     date_start_str = input()
-    print('Enter date end (yyyy-mm-dd). You can skip it, date will be +5 days:')
+    print('Enter date end (yyyy-mm-dd). You can skip it, date will be +1 weak:')
     date_end_str = input()
 
     date_start_is_valid = check_date(date_start_str)
@@ -33,13 +33,12 @@ def start():
     if date_end_is_valid:
         date_end = reporter.convert_date(date_end_str)
     elif end_date_is_auto:
-        date_end = date_start + timedelta(days=5)
+        date_end = date_start + timedelta(days=6)
         date_end_str = str(date_end.date())
     else:
         print("Something goes wrong, please try again")
         input()
-    work_log_info_list = reporter.get_report(project_key, date_start_str,
-                                            date_end_str, date_start, date_end)
+    work_log_info_list = reporter.get_report(project_key, date_start_str, date_end_str, date_start, date_end)
     excel_filename = xls.write_report(work_log_info_list, f"{date_start_str}-{date_end_str}")
 
     if sys.platform.startswith('darwin'):

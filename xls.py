@@ -1,7 +1,9 @@
+"""Working with excel file. Author timoha199490@gmail.com"""
 import openpyxl
 
 
 def write_report(worklog_info_list: list, work_date_str: str):
+    """Writing report data to excel file"""
     workbook = openpyxl.Workbook()
     worksheet = workbook['Sheet']
 
@@ -18,22 +20,21 @@ def write_report(worklog_info_list: list, work_date_str: str):
     worksheet['J1'] = 'TimeSpent'
 
     column_num = 2
-    # Write report data
-    for worklog_info_item in worklog_info_list:
+    for work_log_info_item in worklog_info_list:
         i = str(column_num)
-        worksheet['A' + i] = worklog_info_item.project_name
-        worksheet['B' + i] = worklog_info_item.issue_key
-        worksheet['C' + i] = worklog_info_item.summary
-        worksheet['D' + i] = worklog_info_item.assignee
-        worksheet['E' + i] = worklog_info_item.issue_type
-        worksheet['F' + i] = worklog_info_item.status
-        worksheet['G' + i] = worklog_info_item.description
-        worksheet['H' + i] = worklog_info_item.log_work_date
-        worksheet['I' + i] = worklog_info_item.log_work_time
-        worksheet['J' + i] = worklog_info_item.time_spent
+        worksheet['A' + i] = work_log_info_item.project_name
+        worksheet['B' + i] = work_log_info_item.issue_key
+        worksheet['C' + i] = work_log_info_item.summary
+        worksheet['D' + i] = work_log_info_item.assignee
+        worksheet['E' + i] = work_log_info_item.issue_type
+        worksheet['F' + i] = work_log_info_item.status
+        worksheet['G' + i] = work_log_info_item.description
+        worksheet['H' + i] = work_log_info_item.log_work_date
+        worksheet['I' + i] = work_log_info_item.log_work_time
+        worksheet['J' + i] = work_log_info_item.time_spent
         column_num += 1
-    excell_filename = work_date_str + '_report.xlsx'
-    workbook.save(excell_filename)
+    excel_filename = work_date_str + '_report.xlsx'
+    workbook.save(excel_filename)
     print('Report is ready!')
 
-    return excell_filename
+    return excel_filename
