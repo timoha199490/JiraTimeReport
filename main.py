@@ -16,7 +16,7 @@ def start():
     project_key = input()
     print('Enter date start (yyyy-mm-dd):')
     date_start_str = input()
-    print('Enter date end (yyyy-mm-dd). You can skip it, date will be +1 weak:')
+    print('Enter date end (yyyy-mm-dd). You can skip it, date will be +1 week:')
     date_end_str = input()
 
     date_start_is_valid = check_date(date_start_str)

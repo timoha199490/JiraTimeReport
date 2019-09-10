@@ -25,6 +25,8 @@ class WorkLogInfo:
 
 def get_report(project_key, work_date_start_str,
                work_date_end_str, work_date_start, work_date_end):
+    undefined = object()
+
     """Get report from jira project via jira client. Using JQL filter"""
     credential = init_config()
     jira_options = {'server': credential.server_url}
@@ -52,7 +54,11 @@ def get_report(project_key, work_date_start_str,
                 work_log_info.issue_type = str(issue.fields.issuetype.name)
                 work_log_info.log_work_date = str(log_work_date_str.group(0))
                 work_log_info.log_work_time = str(log_work_time.group(0))
-                work_log_info.description = str(issue.fields.description).strip()
+                work_log_comment = getattr(work_log, "comment", undefined)
+                if work_log_comment is not undefined:
+                    work_log_info.description = work_log_comment
+                else:
+                    work_log_info.description = str(issue.fields.summary)
                 work_log_info.status = str(issue.fields.status.name)
                 worklog_info_list.append(work_log_info)
     return worklog_info_list
